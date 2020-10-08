@@ -18,11 +18,12 @@
 
 const EventEmitter = require('events');
 const emitter = new EventEmitter();
+const Logger = require('./logger');
+const logger = new Logger();
 
-emitter.on('messageLogged', function(){
-    console.log('message raised');
-})
+logger.on('messageLogged', (arg) => {
+    console.log('message raised',arg);
+});
 
-emitter.emit('messageLogged');
-
+logger.log("mine");
 
