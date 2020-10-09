@@ -1,3 +1,4 @@
+const { Socket } = require('dgram');
 // // // console.log(module.paths);
 
 // // const log = require('./logger');  // ./ for user defined modules
@@ -16,14 +17,29 @@
 // console.log(`total memory : ${totalm}`);
 // console.log(`free memory ${freem}`);
 
-const EventEmitter = require('events');
-const emitter = new EventEmitter();
-const Logger = require('./logger');
-const logger = new Logger();
+// const EventEmitter = require('events');
+// const emitter = new EventEmitter();
+// const Logger = require('./logger');
+// const logger = new Logger();
 
-logger.on('messageLogged', (arg) => {
-    console.log('message raised',arg);
+// logger.on('messageLogged', (arg) => {
+//     console.log('message raised',arg);
+// });
+
+
+const http = require('http');
+const server = http.createServer((req, res)=>{
+    if(req.url === '/'){
+        res.write(JSON.stringify([1,2,3]));
+        res.end();
+    }
 });
 
-logger.log("mine");
+// server.on('connection', (socket) => {
+//     console.log('new connection');
+// })
+
+server.listen(3000);
+
+console.log("listening to port... ");
 
