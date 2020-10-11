@@ -1,16 +1,27 @@
 const express = require('express');
 const app = express();
 
+const courses = [
+    {id:1, name:'course 1'},
+    {id:2, name:'course 2'},
+    {id:3, name:'course 3'},
+    {id:4, name:'course 4'},
+];
+
 app.get('/', (req, res)=> {
     res.send('wllo World!!!');
 });
 
 app.get('/courses', (req,res)=>{
-    res.send([1,2,3]);
+    res.send(courses);
 });
 
 app.get('/courses/:id', (req, res) => {
-    res.send(req.params.id);
+    // res.send(req.params.id);
+
+    const course = courses.find(c => c.id === parseInt(req.params.id));
+    if(course) res.send(course);
+    else res.status(404).send(`Object Not found`);
 });
 
 
