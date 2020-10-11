@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+app.use(express.json()); 
+
 const courses = [
     {id:1, name:'course 1'},
     {id:2, name:'course 2'},
@@ -12,10 +14,10 @@ app.get('/', (req, res)=> {
     res.send('wllo World!!!');
 });
 
+// get request
 app.get('/courses', (req,res)=>{
     res.send(courses);
 });
-
 app.get('/courses/:id', (req, res) => {
     // res.send(req.params.id);
 
@@ -25,8 +27,21 @@ app.get('/courses/:id', (req, res) => {
 });
 
 
-//for query string
+// post request
+app.post('/courses', (req, res) => {
+    const course = {
+        id:courses.length+1,
+        name:req.body.name
+    };
+    courses.push(course);
+    res.send(course);
+});
 
+
+
+
+
+//for query string
 app.get('/man/:year/:month', (req, res) => {
     // res.send(req.params.year);
     res.send(req.query);
