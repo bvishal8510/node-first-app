@@ -18,6 +18,10 @@ app.use(express.urlencoded({ extended : true}));   // for submitting form as url
 app.use(express.static('staticfiles'));     // handle staticfiles
 // app.use(morgan('tiny'));                    // gives output of each request to console or log file
 
+//templating engine
+app.set('view engine', 'pug');
+// app.set('views', './views')   //this is default setting can be changed 
+
 // handling more environment variables
 // console.log(config.get('name'));
 // console.log(config.get('mail.host'));
@@ -43,7 +47,8 @@ function validate(course) {
 }
 
 app.get('/', (req, res)=> {
-    res.send('wllo World!!!');
+    // res.send('wllo World!!!');
+    res.render('base', { title:'Express App', message:'The message!!!'})
 });
 
 // get request
