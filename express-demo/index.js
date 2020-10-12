@@ -5,12 +5,17 @@ const Joi = require('joi');
 const express = require('express');
 const app = express();
 
+// console.log(process.env.NODE_ENV);
+// console.log(app.get('env'));             //accessing environemnt variable method
+
 app.use(express.json()); 
 app.use(logger);
 app.use(authenticate);
-app.use(express.urlencoded({ extended : true}));
-app.use(express.static('staticfiles'));
-app.use(morgan('tiny'));
+app.use(express.urlencoded({ extended : true}));   // for submitting form as urlencoded
+app.use(express.static('staticfiles'));     // handle staticfiles
+// app.use(morgan('tiny'));                    // gives output of each request to console or log file
+
+if(app.get('env') === 'development') app.use(morgan('tiny'));
 
 const courses = [
     {id:1, name:'course 1'},
