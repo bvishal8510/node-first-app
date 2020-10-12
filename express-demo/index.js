@@ -1,3 +1,4 @@
+const morgan = require('morgan');
 const logger = require('./logger');
 const authenticate = require('./auth');
 const Joi = require('joi');
@@ -5,10 +6,11 @@ const express = require('express');
 const app = express();
 
 app.use(express.json()); 
-
 app.use(logger);
-
 app.use(authenticate);
+app.use(express.urlencoded({ extended : true}));
+app.use(express.static('staticfiles'));
+app.use(morgan('tiny'));
 
 const courses = [
     {id:1, name:'course 1'},
