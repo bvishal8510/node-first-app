@@ -1,3 +1,4 @@
+const config = require('config');
 const morgan = require('morgan');
 const logger = require('./logger');
 const authenticate = require('./auth');
@@ -14,6 +15,11 @@ app.use(authenticate);
 app.use(express.urlencoded({ extended : true}));   // for submitting form as urlencoded
 app.use(express.static('staticfiles'));     // handle staticfiles
 // app.use(morgan('tiny'));                    // gives output of each request to console or log file
+
+// handling more environment variables
+console.log(config.get('name'));
+console.log(config.get('mail.host'));
+console.log(config.get('mail.password'));
 
 if(app.get('env') === 'development') app.use(morgan('tiny'));
 
