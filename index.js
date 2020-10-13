@@ -1,14 +1,24 @@
 
-console.log('first');
-getuser(1, (user)=>{
-    console.log('got user data...');
+getuser(1, displayuser);
+
+function displaycommits(commits)
+{
+    console.log(`commits ${commits}`);
+}
+
+function displayrepos(repos)
+{
+    console.log('repos');
+    console.log(repos);
+    getcommits(repos[0], displaycommits);
+}
+
+function displayuser(user)
+{
+    console.log('user');
     console.log(user);
-    getrepos(user.name, (repos)=>{
-        console.log('got repos...');
-        console.log(repos);
-    })
-});
-console.log('second');
+    getrepos(user.name, displayrepos);
+}
 
 function getuser(id, callback)
 {
@@ -27,5 +37,12 @@ function getrepos(name, callback)
             { 'no.':2, 'name':'repo 2' },
             { 'no.':3, 'name':'repo 3' }
         ]);
+    }, 2000);
+};
+
+function getcommits(repo, callback){
+    setTimeout(()=>{
+        console.log('getting commits...');
+        callback(['djcb','djbhc','cbdsb']);
     }, 2000);
 };
