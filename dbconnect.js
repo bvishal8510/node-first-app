@@ -88,4 +88,14 @@ async function updateCourseFirst(id){
     console.log(result);    
 }
 
-updateCourseFirst('5f86f9eed90f2813fb4bf348');
+// updateCourseFirst('5f86f9eed90f2813fb4bf348');
+
+async function deleteCourse(id){
+    // const result = await Course.deleteOne({_id:id});   // find first and delete
+    // const result = await Course.deleteMany({_id:id});   // Deletes all
+    const course = Course.findByIdAndRemove(id);
+    console.log(course); 
+    // console.log(result);    
+}
+
+deleteCourse('5f86f9eed90f2813fb4bf348');
