@@ -27,7 +27,14 @@ async function createCourse(){
 // createCourse();
 
 async function findCourse(){
+    // eq, ne(not equal to), gt, gte, lt, lte, in, nin (not in) comparision operators 
+    // or, and logical operators
     const courses = await Course
+        // .find({price:{$eq:10}})                  for equal to
+        // .find({price: {$gte:10, $lte:20}})     to get courses between 10 and 20
+        // .find({price: { $in:[10,15,20]}})      to get courses with Equal to 10, 15, 20 
+        // .find()
+        // .or([{author:'Vishal'}, {ispublished:true}])   //each object is a condition
         .find({author:'Vishal'})
         .limit(10)                  //to set limit number of objects returned
         .sort({name:1})         //set to -1 for desc order and can add more properties
