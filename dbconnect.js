@@ -19,7 +19,20 @@ const dbschema = new mongoose.Schema({
         enum: ['node', 'angular', 'none']  // category value should match one of the given values
     },
     author:String,
-    tags: [ String ] ,
+    tags: {
+        type:[String],
+        validate: {
+            isAsync:true,
+            validator : function(v, callback){            // custom validator
+                setTimeout(()=>{
+                    //do some task
+                    const result = v && v.length > 0; // so that value is not null and there is atleast one tag
+                    callback(result);
+                },3000);
+            },
+            message: 'Should have atleast a tag'
+        }
+    },
     date: { type: Date, default:Date.now},
     ispublished:Boolean,
     price: {
@@ -35,7 +48,7 @@ async function createCourse(){
         name:'New Angular Course',
         category:'node',
         author:'Vishal',
-        tags:['angular','beginner','frontend'],
+        tags:['node', 'backend'],
         ispublished:true,
         price:200,
     });
