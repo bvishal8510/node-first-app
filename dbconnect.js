@@ -6,25 +6,49 @@ mongoose.connect('mongodb://localhost/playdb')
     .catch(err => console.error('could not connect', err));
     
 const dbschema = new mongoose.Schema({
-    name:String,
+    name:{ 
+        type: String, 
+        required:true,
+        maxlength:300,
+        minlength:3,
+        // match:/pattern/   //to match to a regex
+    },   // name is required
+    category:{
+        type:String,
+        required:true,
+        enum: ['node', 'angular', 'none']  // category value should match one of the given values
+    },
     author:String,
     tags: [ String ] ,
     date: { type: Date, default:Date.now},
     ispublished:Boolean,
+    price: {
+        type:Number,
+        required: function(){ return this.ispublished; },    //this is way to set required as per condition 
+        min:10,             //also available for dates
+        max:500,            //also available for dates
+    }
 });
 const Course = mongoose.model('Course', dbschema);
 async function createCourse(){
     const course = new Course({
-        name:'Angular Course',
+        name:'New Angular Course',
+        category:'node',
         author:'Vishal',
         tags:['angular','beginner','frontend'],
-        ispublished:true
+        ispublished:true,
+        price:200,
     });
 
-    const result = await course.save();
-    console.log(result);
+    try{
+        const result = await course.save();
+        console.log(result);    
+    }
+    catch (ex){
+        console.log(ex.message);
+    }
 };
-// createCourse();
+createCourse();
 
 async function findCourse(){
     // eq, ne(not equal to), gt, gte, lt, lte, in, nin (not in) comparision operators 
@@ -98,4 +122,4 @@ async function deleteCourse(id){
     // console.log(result);    
 }
 
-deleteCourse('5f86f9eed90f2813fb4bf348');
+// deleteCourse('5f86f9eed90f2813fb4bf348');
