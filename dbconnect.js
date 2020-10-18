@@ -12,11 +12,14 @@ const dbschema = new mongoose.Schema({
         maxlength:300,
         minlength:3,
         // match:/pattern/   //to match to a regex
-    },   // name is required
+    },   // namongoose.connect('mongodb://localhost/playdb')me is required
     category:{
         type:String,
         required:true,
-        enum: ['node', 'angular', 'none']  // category value should match one of the given values
+        enum: ['node', 'angular', 'none'],  // category value should match one of the given values
+        // lowercase:true,
+        // uppercase:true,
+        // trim:true
     },
     author:String,
     tags: {
@@ -28,7 +31,7 @@ const dbschema = new mongoose.Schema({
                     //do some task
                     const result = v && v.length > 0; // so that value is not null and there is atleast one tag
                     callback(result);
-                },3000);
+                },0000);
             },
             message: 'Should have atleast a tag'
         }
@@ -40,15 +43,17 @@ const dbschema = new mongoose.Schema({
         required: function(){ return this.ispublished; },    //this is way to set required as per condition 
         min:10,             //also available for dates
         max:500,            //also available for dates
+        // get: v => Math.round(v),     // called when we get property of document
+        // set: v => Math.round(v)  // called when we set property of document
     }
 });
 const Course = mongoose.model('Course', dbschema);
 async function createCourse(){
     const course = new Course({
         name:'New Angular Course',
-        category:'node',
+        category:'-',
         author:'Vishal',
-        tags:['node', 'backend'],
+        tags:null,
         ispublished:true,
         price:200,
     });
@@ -58,7 +63,7 @@ async function createCourse(){
         console.log(result);    
     }
     catch (ex){
-        console.log(ex.message);
+        for (field in ex.errors) console.log(ex.errors[field].message); //for each validation error
     }
 };
 createCourse();
@@ -115,7 +120,7 @@ async function updateCourseFirst(id){
     //             ispublished:true
     //         }
     //     });
-    const result = Course.findByIdAndUpdate(id,          //pass id
+    const result = await Course.findByIdAndUpdate(id,          //pass id
         {                                              
             $set:{
                 author:'Ashu',
