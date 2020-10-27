@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
+const Fawn = require('fawn');
 
+
+Fawn.init(mongoose);
 
 //referencing model
 const Author = mongoose.model('author', new mongoose.Schema({
@@ -43,7 +46,21 @@ async function createCourse(name, authors){
         name,
         authors
     });
+    //when we need to save two or more database objects related to eachother then we use Fawn library
+
     const result = await course.save();
+    try{
+        new Fawn.Task()     //has various different functions to do tasks
+            .save('course', course)
+            .update('author', {_id:author._id}, {
+                $inc:{numberinstock:-1}
+            })
+            .run();     //important without it Fawn wont run
+    }
+    catch(ex){
+        result.status(500).send('Internal Server Error!');
+    }
+
 };
 
 createCourse('node course', [new Author({name: 'mos'}), new Author({name: 'amy'})]);     //calling with new 
