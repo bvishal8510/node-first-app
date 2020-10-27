@@ -35,18 +35,18 @@ const Author = mongoose.model('author', new mongoose.Schema({
 
 const Course = mongoose.model('course', new mongoose.Schema({
     name:String,
-    author: authorSchema        //reference to object itself
+    authors: [authorSchema]        //reference to object itself
 }));
 
-async function createCourse(name, author){
+async function createCourse(name, authors){
     const course = new Course({
         name,
-        author
+        authors
     });
     const result = await course.save();
 };
 
-createCourse('node course', new Author({name: 'mos'}));     //calling with new 
+createCourse('node course', [new Author({name: 'mos'}), new Author({name: 'amy'})]);     //calling with new 
 
         // for update -> we can use update along with set property to author.name (to reach particular property)
         // use unset to remove a property or object as whole
