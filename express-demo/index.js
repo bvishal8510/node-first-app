@@ -1,5 +1,6 @@
-const coursestouter = require('./route/courses');
+const coursesrouter = require('./route/courses');
 const baserouter = require('./route/base');
+const usersrouter = require('./route/users');
 const appdebugger = require('debug')('app:debug');
 const dbdebugger = require('debug')('app:db');
 const config = require('config');
@@ -19,7 +20,8 @@ app.use(express.urlencoded({ extended : true}));   // for submitting form as url
 app.use(express.static('staticfiles'));     // handle staticfiles
 // app.use(morgan('tiny'));                    // gives output of each request to console or log file
 app.use('/', baserouter);
-app.use('/courses', coursestouter);
+app.use('/courses', coursesrouter);
+app.use('/users', usersrouter);
 
 //templating engine
 app.set('view engine', 'pug');
