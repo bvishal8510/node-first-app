@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "mongoose": "^5.0.1"
   },
   "devDependencies": {},
