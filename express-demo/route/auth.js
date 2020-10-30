@@ -1,3 +1,5 @@
+const config = require('config');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
 const _ = require('lodash');
@@ -18,8 +20,10 @@ authrouter.post('/', async (req, res) => {
 
     const valid_password = await bcrypt.compare(req.body.password, user.password);
     if(!valid_password) res.status(400).send('Invalid email or password');
-        
-    res.send(true);
+
+    const token = jwt.sign({_id:user._id},config.get('jwtPrivateKey'));
+
+    res.send(token);
 });
 
 function validate(user){

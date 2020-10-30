@@ -1,3 +1,4 @@
 {
-    "name": "my express server"
+    "name": "my express server",
+    "jwtPrivateKey":""
 }

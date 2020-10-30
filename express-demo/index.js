@@ -25,6 +25,11 @@ app.use('/courses', coursesrouter);
 app.use('/users', usersrouter);
 app.use('/auth', authrouter);
 
+if(!config.get('jwtPrivateKey')){
+    console.log('FATAL ERROR!!');
+    process.exit(1);
+}
+
 //templating engine
 app.set('view engine', 'pug');
 // app.set('views', './views')   //this is default setting can be changed 
