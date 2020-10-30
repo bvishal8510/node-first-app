@@ -1,6 +1,7 @@
 const coursesrouter = require('./route/courses');
 const baserouter = require('./route/base');
 const usersrouter = require('./route/users');
+const authrouter = require('./route/auth');
 const appdebugger = require('debug')('app:debug');
 const dbdebugger = require('debug')('app:db');
 const config = require('config');
@@ -22,6 +23,7 @@ app.use(express.static('staticfiles'));     // handle staticfiles
 app.use('/', baserouter);
 app.use('/courses', coursesrouter);
 app.use('/users', usersrouter);
+app.use('/auth', authrouter);
 
 //templating engine
 app.set('view engine', 'pug');
