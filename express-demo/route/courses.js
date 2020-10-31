@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth');
 const {validate, Course} = require('../models/course');
 const express = require('express');
 const coursesrouter = express.Router();
@@ -17,6 +18,7 @@ coursesrouter.get('/', async (req,res)=>{
     const courses = await Course.find();
     res.send(JSON.stringify(courses));
 });
+
 coursesrouter.get('/:id', async (req, res) => {
     // res.send(req.params.id);
     const course = await Course.find({_id:req.params.id});
@@ -27,7 +29,7 @@ coursesrouter.get('/:id', async (req, res) => {
 });
 
 // post request
-coursesrouter.post('/', async (req, res) => {
+coursesrouter.post('/', auth, async (req, res) => {
 
     // const schema = Joi.object({
     //     name: Joi.string().min(3).required()

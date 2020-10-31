@@ -15,8 +15,8 @@ const app = express();
 // console.log(app.get('env'));             //accessing environemnt variable method
 
 app.use(express.json()); 
-app.use(logger);
-app.use(authenticate);
+// app.use(logger);
+// app.use(authenticate);
 app.use(express.urlencoded({ extended : true}));   // for submitting form as urlencoded
 app.use(express.static('staticfiles'));     // handle staticfiles
 // app.use(morgan('tiny'));                    // gives output of each request to console or log file
