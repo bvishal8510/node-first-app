@@ -1,4 +1,5 @@
 const auth = require('../middleware/auth');
+const isAdmin = require('../middleware/is_admin');
 const {validate, Course} = require('../models/course');
 const express = require('express');
 const coursesrouter = express.Router();
@@ -106,7 +107,7 @@ coursesrouter.put('/:id', async (req, res) => {
 });
 
 //delete request
-coursesrouter.delete('/:id', async (req, res) => {
+coursesrouter.delete('/:id', [auth, isAdmin], async (req, res) => {
     // const course = Course.findByIdAndRemove(req.params.id);
     const result = await Course.deleteOne({_id:req.params.id});
     res.send(JSON.stringify(result));

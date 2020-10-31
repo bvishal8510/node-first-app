@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const authrouter = require('../route/auth');
 // function authenticate(req, res, next){
 //     console.log('authenticating...;');
 //     next();

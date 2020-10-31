@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth');
 const config = require('config');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -6,12 +7,13 @@ const {User, validate} = require('../models/user');
 const express = require('express');
 const usersrouter = express.Router();
 const mongoose = require('mongoose');
+const authrouter = require('./auth');
 mongoose.connect('mongodb://localhost/playdb');
 
 // get request
-usersrouter.get('/', async (req,res)=>{
-    const courses = await Course.find();
-    res.send(JSON.stringify(courses));
+usersrouter.get('/me', auth, async (req,res)=>{
+    const user = await User.findById(req.user._id).select('-password');
+    res.send(user)
 });
 
 
