@@ -15,9 +15,15 @@ mongoose.connect('mongodb://localhost/playdb');
 // ];
 
 // get request
-coursesrouter.get('/', async (req,res)=>{
-    const courses = await Course.find();
-    res.send(JSON.stringify(courses));
+coursesrouter.get('/', async (req,res, next)=>{
+    try{
+        const courses = await Course.find();
+        res.send(JSON.stringify(courses));
+    }
+    catch(ex)
+    {
+        next(ex);
+    }
 });
 
 coursesrouter.get('/:id', async (req, res) => {

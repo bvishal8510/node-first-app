@@ -6,17 +6,14 @@ const appdebugger = require('debug')('app:debug');
 const dbdebugger = require('debug')('app:db');
 const config = require('config');
 const morgan = require('morgan');
-const logger = require('./middleware/logger');
-const authenticate = require('./middleware/auth');
 const express = require('express');
+const error = require('./middleware/error');
 const app = express();
 
 // console.log(process.env.NODE_ENV);
 // console.log(app.get('env'));             //accessing environemnt variable method
 
 app.use(express.json()); 
-// app.use(logger);
-// app.use(authenticate);
 app.use(express.urlencoded({ extended : true}));   // for submitting form as urlencoded
 app.use(express.static('staticfiles'));     // handle staticfiles
 // app.use(morgan('tiny'));                    // gives output of each request to console or log file
@@ -24,6 +21,8 @@ app.use('/', baserouter);
 app.use('/courses', coursesrouter);
 app.use('/users', usersrouter);
 app.use('/auth', authrouter);
+
+app.use(error);
 
 if(!config.get('jwtPrivateKey')){
     console.log('FATAL ERROR!!');
