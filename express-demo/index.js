@@ -1,3 +1,4 @@
+require('express-async-errors');
 const coursesrouter = require('./route/courses');
 const baserouter = require('./route/base');
 const usersrouter = require('./route/users');

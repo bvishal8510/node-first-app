@@ -18,10 +18,10 @@ mongoose.connect('mongodb://localhost/playdb');
 // get request
 
 
-coursesrouter.get('/', asyncmiddleware(async (req, res)=>{
+coursesrouter.get('/', async (req, res)=>{
     const courses = await Course.find();
     res.send(JSON.stringify(courses));
-}));
+});
 
 coursesrouter.get('/:id', asyncmiddleware(async (req, res) => {
     // res.send(req.params.id);
