@@ -1,3 +1,4 @@
+const asyncmiddleware = require('../middleware/async');
 const auth = require('../middleware/auth');
 const isAdmin = require('../middleware/is_admin');
 const {validate, Course} = require('../models/course');
@@ -15,28 +16,24 @@ mongoose.connect('mongodb://localhost/playdb');
 // ];
 
 // get request
-coursesrouter.get('/', async (req,res, next)=>{
-    try{
-        const courses = await Course.find();
-        res.send(JSON.stringify(courses));
-    }
-    catch(ex)
-    {
-        next(ex);
-    }
-});
 
-coursesrouter.get('/:id', async (req, res) => {
+
+coursesrouter.get('/', asyncmiddleware(async (req, res)=>{
+    const courses = await Course.find();
+    res.send(JSON.stringify(courses));
+}));
+
+coursesrouter.get('/:id', asyncmiddleware(async (req, res) => {
     // res.send(req.params.id);
     const course = await Course.find({_id:req.params.id});
 
     // const course = courses.find(c => c.id === parseInt(req.params.id));
     if(course) res.send(JSON.stringify(course));
     else res.status(404).send(`Object Not found`);
-});
+}));
 
 // post request
-coursesrouter.post('/', auth, async (req, res) => {
+coursesrouter.post('/', auth, asyncmiddleware(async (req, res) => {
 
     // const schema = Joi.object({
     //     name: Joi.string().min(3).required()
@@ -63,10 +60,10 @@ coursesrouter.post('/', auth, async (req, res) => {
         }
         // res.send(course);
     }
-});
+}));
 
 //put request
-coursesrouter.put('/:id', async (req, res) => {
+coursesrouter.put('/:id', asyncmiddleware(async (req, res) => {
     // const schema = Joi.object({
     //     name: Joi.string().min(3).required()
     // });
@@ -110,10 +107,10 @@ coursesrouter.put('/:id', async (req, res) => {
             res.status(400).send(ex.errors);
         }
     }
-});
+}));
 
 //delete request
-coursesrouter.delete('/:id', [auth, isAdmin], async (req, res) => {
+coursesrouter.delete('/:id', [auth, isAdmin], asyncmiddleware(async (req, res) => {
     // const course = Course.findByIdAndRemove(req.params.id);
     const result = await Course.deleteOne({_id:req.params.id});
     res.send(JSON.stringify(result));
@@ -125,7 +122,7 @@ coursesrouter.delete('/:id', [auth, isAdmin], async (req, res) => {
     //     courses.splice(index, 1);
     //     res.send(courses);i
     // }
-});
+}));
 
 // //for query string
 // router.get('/man/:year/:month', (req, res) => {
