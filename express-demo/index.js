@@ -1,4 +1,5 @@
 require('express-async-errors');
+const winston = require('winston');
 const coursesrouter = require('./route/courses');
 const baserouter = require('./route/base');
 const usersrouter = require('./route/users');
@@ -11,6 +12,7 @@ const express = require('express');
 const error = require('./middleware/error');
 const app = express();
 
+winston.add(new winston.transports.File({filename:'logfile.log'}));
 // console.log(process.env.NODE_ENV);
 // console.log(app.get('env'));             //accessing environemnt variable method
 
