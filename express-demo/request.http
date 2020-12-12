@@ -1,0 +1,17 @@
+@url = http://127.0.0.1:3000
+
+############################
+GET {{url}}/courses
+Content-Type: 'application/json'
+
+###############################
+POST {{url}}/courses
+Content-Type: application/json
+
+{
+    "name":"Vishal",
+    "category":"python",
+    "tags":["python", "django"],
+    "ispublished":"true",
+    "price":"200"
+}
