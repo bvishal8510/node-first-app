@@ -1,3 +1,4 @@
+require('jest');
 require('express-async-errors');
 const winston = require('winston');
 const coursesrouter = require('./route/courses');

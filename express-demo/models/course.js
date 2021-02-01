@@ -11,7 +11,7 @@ const dbschema = new mongoose.Schema({
     category:{
         type:String,
         required:true,
-        enum: ['node', 'angular', 'none'],
+        enum: ['node', 'angular', 'none', 'python'],
     },
     author:String,
     tags: {
