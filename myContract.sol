@@ -1,24 +1,17 @@
 pragma solidity ^0.4.24;
 
 contract MyContract {
-    // string public name = 'MyValue';
-    // bool public boolValue = true;
-    // int public intValue = -1;
-    // uint256 public uintValue = 1;   // cannot asign negative value to unsigned int variable
+    Person[] public people;
     
-    enum State { Waiting, Ready, Active }
+    int public peopleCount;    // to count numebr of poeple
     
-    State public state;
-    
-    constructor() public {
-        state = State.Waiting;
+    struct Person {
+        string _firstName;
+        string _lastName;
     }
     
-    function Activate() public {
-        state = State.Active;
-    }
-    
-    function check() public view returns(bool) {
-        return state == State.Active;
+    function add(string _firstName, string _lastName) public {
+        people.push(Person(_firstName, _lastName));
+        peopleCount += 1;
     }
 }
