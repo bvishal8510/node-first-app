@@ -1,15 +1,24 @@
 pragma solidity 0.5.1;
 
+contract ERC20Token {
+    string public name;
+    mapping(address => uint256) public balances;
+    
+    function mint() public {
+        balances[tx.origin] ++;  // use tx.origin in case of using one inside another
+    }
+}
+
 contract MyContract {
     
     mapping(address =>uint256) public balances;
     
     address payable wallet;
-    
-    event Purchase(address indexed _buyer, uint256 _amount); 
-    
-    constructor(address payable _wallet) public {
+    address public token;
+
+    constructor(address payable _wallet, address _token) public {
         wallet = _wallet;
+        token = _token;
     }
     
     function() external payable {
@@ -17,11 +26,9 @@ contract MyContract {
     }
     
     function buyToken() public payable {
-        
-        balances[msg.sender] += 1;
-        
+        ERC20Token _token = ERC20Token(address(token));
+        _token.mint();
         wallet.transfer(msg.value);
-        emit Purchase(msg.sender, 1);
     }
     
 }
