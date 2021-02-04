@@ -4,15 +4,11 @@ contract MyContract {
     int public peopleCount = 0;    // to count numebr of poeple
     mapping(int => Person) public people;
     
-    address owner;
+    uint256 opentime = 1612445530;
     
-    modifier onlyOwner() {
-        require(msg.sender == owner);
+    modifier aftertime() {
+        require(block.timestamp >= opentime);
         _;
-    }
-    
-    constructor() public {
-        owner = msg.sender;
     }
     
     struct Person {
@@ -20,7 +16,7 @@ contract MyContract {
         string _lastName;
     }
     
-    function add(string _firstName, string _lastName) public onlyOwner{
+    function add(string _firstName, string _lastName) public aftertime{
         increament();
         people[peopleCount] = Person(_firstName, _lastName);
     }
