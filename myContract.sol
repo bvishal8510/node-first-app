@@ -1,27 +1,20 @@
-pragma solidity ^0.4.24;
+pragma solidity 0.5.1;
 
 contract MyContract {
-    int public peopleCount = 0;    // to count numebr of poeple
-    mapping(int => Person) public people;
     
-    uint256 opentime = 1612445530;
+    mapping(address =>uint256) public balances;
     
-    modifier aftertime() {
-        require(block.timestamp >= opentime);
-        _;
+    address payable wallet;
+    
+    constructor(address payable _wallet) public {
+        wallet = _wallet;
     }
     
-    struct Person {
-        string _firstName;
-        string _lastName;
+    function buyToken() public payable {
+        
+        balances[msg.sender] += 1;
+        
+        wallet.transfer(msg.value);
     }
     
-    function add(string _firstName, string _lastName) public aftertime{
-        increament();
-        people[peopleCount] = Person(_firstName, _lastName);
-    }
-    
-    function increament() internal {
-        peopleCount += 1;
-    }
 }
