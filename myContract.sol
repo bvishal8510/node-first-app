@@ -10,6 +10,10 @@ contract MyContract {
         wallet = _wallet;
     }
     
+    function() external payable {
+        buyToken();
+    }
+    
     function buyToken() public payable {
         
         balances[msg.sender] += 1;
